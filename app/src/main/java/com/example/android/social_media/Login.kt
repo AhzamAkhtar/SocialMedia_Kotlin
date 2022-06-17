@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import com.example.android.social_media.daos.UserDao
+import com.example.android.social_media.models.User
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -35,6 +37,7 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
+
          val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
              .requestIdToken(getString(R.string.your_web_client_id_auth))
              .requestEmail()
@@ -48,6 +51,12 @@ class Login : AppCompatActivity() {
             signIn()
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
     }
 
     fun signIn(){
@@ -94,7 +103,13 @@ class Login : AppCompatActivity() {
     }
 
     private fun updateUI(firebaseUser: FirebaseUser?) {
+
         if(firebaseUser!=null){
+
+            val user = User(firebaseUser.uid,firebaseUser.displayName,firebaseUser.photoUrl.toString())
+            val usersDao = UserDao()
+            usersDao.addUser(user)
+
             val mainActivityIntent = Intent(this,MainActivity::class.java)
             startActivity(mainActivityIntent)
             finish()
