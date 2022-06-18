@@ -1,10 +1,11 @@
 package com.example.android.social_media
 
+import PostDao
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import com.example.android.social_media.daos.PostDao
+
 import com.example.android.social_media.daos.UserDao
 
 class CreatePost : AppCompatActivity() {
@@ -20,7 +21,7 @@ class CreatePost : AppCompatActivity() {
             val input_text = intput.text.toString().trim()
             if(input_text.isNotEmpty()){
                 var postDao = PostDao()
-                postDao.addpost(input_text)
+                postDao.addPost(input_text)
                 finish()
             }
         }
