@@ -68,6 +68,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:8.0.1'
     implementation 'com.firebaseui:firebase-ui-storage:8.0.1'
 
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+
 
 
 }

@@ -5,6 +5,8 @@ import android.app.DownloadManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.TextKeyListener.clear
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -17,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.core.RepoManager.clear
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
@@ -28,6 +31,8 @@ class MainActivity : AppCompatActivity(), IPostAdapter {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //setUpAdapter()
+
         val signOutButton: Button = findViewById(R.id.buttonSignOut)
         signOutButton.setOnClickListener{
 
@@ -37,9 +42,16 @@ class MainActivity : AppCompatActivity(), IPostAdapter {
             builder.setIcon(R.drawable.ic_logout)
             builder.setPositiveButton("Yes"){
                 dialogeInterface,which ->
-                val auth = FirebaseAuth.getInstance()
+
+                //val auth = Firebase.auth
+                //auth.signOut()
+                FirebaseAuth.getInstance().signOut()
+                var auth = FirebaseAuth.getInstance()
                 auth.signOut()
-                val intent:Intent = Intent(this,Login::class.java)
+                finish()
+                val intent:Intent = Intent(this,Login::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                }
                 startActivity(intent)
             }
             builder.setNegativeButton("No"){
